@@ -1,0 +1,18 @@
+name: d7030e_ns3
+
+services:
+  ns3:
+    image: ns3-3.40:latest
+    container_name: ns3dev
+    tty: true
+    stdin_open: true
+    working_dir: /work
+    command: bash -c "source scripts/setup_env.sh && cd \"$$NS3_DIR\" && exec bash"
+    init: true
+    environment:
+      DISPLAY: "host.docker.internal:0.0"
+      QT_X11_NO_MITSHM: 1
+    volumes:
+      - .:/work
+      - ./exec:/opt/ns-allinone-3.40/ns-3.40/scratch/exec
+      - /tmp/.X11-unix:/tmp/.X11-unix
