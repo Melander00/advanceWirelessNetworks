@@ -57,7 +57,7 @@ Simply open the file with cmd when you want to start NetAnim.
 Build the docker image. ⚠️ This process takes very long and it's recommended to only run once.
 
 ```powershell
-docker build -t ns3:latest
+docker build -t ns3-3.40:latest .
 ```
 
 ## 3. Docker container
