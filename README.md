@@ -1,4 +1,4 @@
-[Instructions for windows](/WindowsInstructions)
+[Instructions for windows](/WindowsInstructions.md)
 
 # Advanced Wireless Networks – ns-3 Lab Series (2025 Edition)
 
