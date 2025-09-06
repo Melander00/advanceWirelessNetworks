@@ -21,10 +21,10 @@ export PATH="${NS3_DIR}:${NS3_DIR}/build:${PATH:-}"
 echo "[ns3-env] NS3_DIR=$NS3_DIR"
 
 # Try new-style cppyy import; never exit here (we just warn)
-python3 - <<'PY' || true
-try:
-    from ns import ns
-    print("[ns3-env] Python 'ns' import: OK")
-except Exception as e:
-    print("[ns3-env] Python 'ns' import WARNING:", e)
-PY
+# python3 - <<'PY' || true
+# try:
+#     from ns import ns
+#     print("[ns3-env] Python 'ns' import: OK")
+# except Exception as e:
+#     print("[ns3-env] Python 'ns' import WARNING:", e)
+# PY
