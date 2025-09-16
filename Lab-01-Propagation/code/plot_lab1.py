@@ -2,7 +2,7 @@ from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 
-repo = Path("/home/aditya/Desktop/advanceWirelessNetworks")
+repo = Path("./")
 csv  = repo / "Lab-01-Propagation" / "submission" / "lab1_results.csv"
 outd = repo / "Lab-01-Propagation" / "submission"
 outd.mkdir(parents=True, exist_ok=True)  # will raise if no perms
