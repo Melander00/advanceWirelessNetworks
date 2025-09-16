@@ -1,0 +1,1 @@
+wsl -d Ubuntu ./netanim/netanim-3.108/NetAnim

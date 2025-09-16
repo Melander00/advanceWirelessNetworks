@@ -1,6 +1,9 @@
 # Set output encoding to UTF-8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
+# Set working dir
+Set-Location -Path $PSScriptRoot
+
 # Check if the Docker container 'ns3dev' is running
 $containerName = "ns3dev"
 $running = docker ps --filter "name=$containerName" --filter "status=running" --format "{{.Names}}"
@@ -64,8 +67,9 @@ Write-Host "`t $cmd" -ForegroundColor Green
 Write-Host ""
 
 # Start an interactive bash session in the Docker container
+
 docker exec -it $containerName bash -c $cmd
 
 Write-Host ""
 Write-Host "==> Done."
-Pause
+Read-Host "Press Enter to stop..."

@@ -21,11 +21,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Fetch and build ns-3 allinone for the pinned version
 WORKDIR /opt
-RUN curl -fsSL https://www.nsnam.org/release/ns-allinone-${NS3_VERSION}.tar.bz2 -o ns-allinone-${NS3_VERSION}.tar.bz2 && \
-    tar -xjf ns-allinone-${NS3_VERSION}.tar.bz2 && \
-    rm ns-allinone-${NS3_VERSION}.tar.bz2 && \
-    cd ns-allinone-${NS3_VERSION} && \
-    ./build.py --enable-examples --enable-tests
+RUN curl -fsSL https://www.nsnam.org/release/ns-allinone-${NS3_VERSION}.tar.bz2 -o ns-allinone-${NS3_VERSION}.tar.bz2
+    
+RUN tar -xjf ns-allinone-${NS3_VERSION}.tar.bz2 && \
+    rm ns-allinone-${NS3_VERSION}.tar.bz2
+
+RUN cd ns-allinone-${NS3_VERSION} && ./build.py --enable-examples --enable-tests
 
 # Environment for Python + shared libs
 ENV NS3_ALLINONE=/opt/ns-allinone-${NS3_VERSION}
