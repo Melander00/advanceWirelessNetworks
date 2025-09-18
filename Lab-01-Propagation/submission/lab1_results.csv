@@ -1,4 +1,7 @@
 model,distance_m,rxBytes,throughput_bps
+
+TwoRay,633,0,0
+TwoRay,632,5744464,5.10619e+06
 TwoRay,488,5747548,5.10893e+06
 TwoRay,427,5748576,5.10985e+06
 TwoRay,366,5750632,5.11167e+06
@@ -12,9 +15,12 @@ Cost231,143,0,0
 Cost231,125,0,0
 Cost231,107,0,0
 Cost231,89,0,0
-CSV,model=Cost231,distance_m=75,rxBytes=5757828,throughput_bps=5.11807e+06
-CSV,model=Cost231,distance_m=74,rxBytes=5757828,throughput_bps=5.11807e+06
-CSV,model=Cost231,distance_m=73,rxBytes=5757828,throughput_bps=5.11807e+06
+Cost231,78,0,0
+Cost231,77,5757828,5.11807e+06
+Cost231,76,5757828,5.11807e+06
+Cost231,75,5757828,5.11807e+06
+Cost231,74,5757828,5.11807e+06
+Cost231,73,5757828,5.11807e+06
 Cost231,72,5757828,5.11807e+06
 Cost231,54,5757828,5.11807e+06
 Cost231,36,5758856,5.11898e+06
@@ -26,5 +32,7 @@ Friis,1942,0,0
 Friis,1619,0,0
 Friis,1295,0,0
 Friis,971,0,0
+Friis,819,0,0
+Friis,818,5739324,5.10162e+06
 Friis,647,5743436,5.10528e+06
 Friis,324,5751660,5.11259e+06
