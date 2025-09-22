@@ -26,6 +26,7 @@ int main (int argc, char* argv[])
                              "Frequency",       DoubleValue(1.8e9),
                              "BSAntennaHeight", DoubleValue(15.0),
                              "SSAntennaHeight", DoubleValue(1.5),
+                            //  "C",               DoubleValue(10.0),
                              "MinDistance",     DoubleValue(0.5));
   // NOTE: If your ns-3.40 build supports 'C' you can add: "C", DoubleValue(10.0)
 
