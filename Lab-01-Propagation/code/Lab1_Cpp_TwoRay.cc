@@ -79,8 +79,8 @@ int main (int argc, char* argv[])
   Simulator::Destroy();
 
   const double thr_bps = (rxBytes * 8.0) / 9.0;
-  std::cout << "CSV,model=TwoRay,distance_m=" << distance
-            << ",rxBytes=" << rxBytes
-            << ",throughput_bps=" << thr_bps << std::endl;
+  std::cout << "TwoRay," << distance
+            << "," << rxBytes
+            << "," << thr_bps << std::endl;
   return 0;
 }
