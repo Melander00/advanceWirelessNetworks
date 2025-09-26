@@ -27,10 +27,14 @@ int main (int argc, char *argv[])
   // Parameters
   double rate = 1.0;   // Mbps (intended PHY data mode; we’ll also use it for app rate)
   uint32_t seed = 1;
+  uint32_t payload = 1000;
+  double d = 10.0;
 
   CommandLine cmd;
   cmd.AddValue("rate", "Physical layer data rate in Mbps (valid: 1, 2, 5.5, 11; rounded up)", rate);
   cmd.AddValue("seed", "RngRun seed value", seed);
+  cmd.AddValue("payload", "Payload in bytes", payload);
+  cmd.AddValue("distance", "Distance in meters", d);
   cmd.Parse(argc, argv);
 
   // Randomization
@@ -77,23 +81,10 @@ int main (int argc, char *argv[])
   NetDeviceContainer apDevice = wifi.Install(phy, mac, wifiApNode);
 
   // Mobility: place nodes in a row (10m apart)
-//   MobilityHelper mobility;
-//   mobility.SetPositionAllocator("ns3::GridPositionAllocator",
-//                                 "MinX", DoubleValue(0.0),
-//                                 "MinY", DoubleValue(0.0),
-//                                 "DeltaX", DoubleValue(10.0),
-//                                 "DeltaY", DoubleValue(0.0),
-//                                 "GridWidth", UintegerValue(3),
-//                                 "LayoutType", StringValue("RowFirst"));
-//   mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
-//   mobility.Install(wifiStaNodes);
-//   mobility.Install(wifiApNode);
-
-    // Mobility: place nodes in an equilateral triangle (10m sides)
   Ptr<ListPositionAllocator> positionAlloc = CreateObject<ListPositionAllocator> ();
   positionAlloc->Add(Vector(0.0, 0.0, 0.0));     // STA0
-  positionAlloc->Add(Vector(10.0, 0.0, 0.0));    // STA1
-  positionAlloc->Add(Vector(5.0, 8.66, 0.0));    // AP
+  positionAlloc->Add(Vector(d/2, 0.0, 0.0));    // STA1
+  positionAlloc->Add(Vector(d/4, sqrt(d*d - (d/2)*(d/2)), 0.0));    // AP
 
   MobilityHelper mobility;
   mobility.SetPositionAllocator(positionAlloc);
@@ -117,7 +108,7 @@ int main (int argc, char *argv[])
   OnOffHelper onoff("ns3::UdpSocketFactory",
                     InetSocketAddress(staIfaces.GetAddress(1), 9));
   onoff.SetAttribute("DataRate", StringValue(offered.str()));
-  onoff.SetAttribute("PacketSize", UintegerValue(1000));
+  onoff.SetAttribute("PacketSize", UintegerValue(payload));
   onoff.SetAttribute("OnTime",  StringValue("ns3::ConstantRandomVariable[Constant=1]"));
   onoff.SetAttribute("OffTime", StringValue("ns3::ConstantRandomVariable[Constant=0]"));
 
@@ -135,7 +126,7 @@ int main (int argc, char *argv[])
   // FlowMonitor & NetAnim
   FlowMonitorHelper fmHelper;
   Ptr<FlowMonitor> monitor = fmHelper.InstallAll();
-  AnimationInterface anim("Lab2_Scenario1.xml");
+  AnimationInterface anim("Lab2_Sweep.xml");
 
   // Run simulation
   Simulator::Stop(Seconds(10.0));
@@ -151,12 +142,10 @@ int main (int argc, char *argv[])
   const double activeSecs = 9.0; // 1s..10s
   const double throughput = (totalRxBytes * 8.0) / activeSecs;  // bps
 
-  std::cout << "" << mode
-            << "," << offered.str()
+  std::cout << offered.str()
             << "," << seed
-            << "," << totalRxBytes
-            << "," << throughput << ","
-            << throughput/1e6 << "\n";
+            << "," << payload
+            << "," << throughput << "\n";
 
   Simulator::Destroy();
   return 0;
