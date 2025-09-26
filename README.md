@@ -1,3 +1,5 @@
+[Instructions for windows](/WindowsInstructions)
+
 # Advanced Wireless Networks – ns-3 Lab Series (2025 Edition)
 
 > **Course code:** D7030E  
