@@ -200,6 +200,12 @@ main (int argc, char *argv[])
             << "," << totalRxBytes
             << "," << throughput << ","
             << throughput/1e6 << "\n";
+  std::cout << "" << mode
+            << "," << offered.str()
+            << "," << seed
+            << "," << totalRxBytes
+            << "," << throughput << ","
+            << throughput/1e6 << "\n";
 
   Simulator::Destroy();
   return 0;
