@@ -50,9 +50,13 @@ main (int argc, char *argv[])
   // seed:   the RngRun so we can repeat with different contention/backoff timings
   double   rate = 11.0;       // Mbps (valid: 1, 2, 5.5, 11)
   uint32_t seed = 1;          // RngRun index (use 1 and 2 per spec)
+  uint32_t payload = 1000;
+  double d = 10.0;
   CommandLine cmd;
   cmd.AddValue("rate", "802.11b PHY data rate in Mbps (1, 2, 5.5, 11 -> rounded up)", rate);
   cmd.AddValue("seed", "RngRun value for repeatability (use 1 and 2 for the lab)", seed);
+  cmd.AddValue("payload", "Payload in bytes", payload);
+  cmd.AddValue("distance", "Distance in meters", d);
   cmd.Parse(argc, argv);
 
   // ----------------------------- Randomization setup -----------------------------
@@ -116,7 +120,7 @@ main (int argc, char *argv[])
   //   |Sender - Receiver| = 10
   MobilityHelper mobility;
   Ptr<ListPositionAllocator> pos = CreateObject<ListPositionAllocator>();
-  const double side = 10.0;
+  const double side = d;
   const double h    = side * std::sqrt(3.0) / 2.0;
   pos->Add(Vector( 0.0, 0.0, 0.0));     // AP
   pos->Add(Vector(-side/2.0, h, 0.0));  // STA sender
@@ -147,7 +151,7 @@ main (int argc, char *argv[])
   OnOffHelper onoff("ns3::UdpSocketFactory",
                     InetSocketAddress(staIfaces.GetAddress(1), 9)); // -> receiver:port 9
   onoff.SetAttribute("DataRate",   StringValue("100Mbps"));        // saturating offered load
-  onoff.SetAttribute("PacketSize", UintegerValue(1000));           // payload size
+  onoff.SetAttribute("PacketSize", UintegerValue(payload));           // payload size
   onoff.SetAttribute("OnTime",     StringValue("ns3::ConstantRandomVariable[Constant=1]"));
   onoff.SetAttribute("OffTime",    StringValue("ns3::ConstantRandomVariable[Constant=0]"));
 
@@ -194,11 +198,10 @@ main (int argc, char *argv[])
   const double activeSecs = 9.0;  // apps active in [1,10]s
   const double goodput_bps = (totalRxBytes * 8.0) / activeSecs;
 
-  std::cout << "[Scenario1] PHYMode=" << mode
-            << "  offered=100Mbps"
-            << "  totalRxBytes=" << totalRxBytes
-            << "  throughput=" << goodput_bps << " bps (" << goodput_bps/1e6 << " Mbps)"
-            << std::endl;
+  std::cout << mode
+            << "," << seed
+            << "," << payload
+            << "," << goodput_bps << "\n";
 
   Simulator::Destroy();
   return 0;
