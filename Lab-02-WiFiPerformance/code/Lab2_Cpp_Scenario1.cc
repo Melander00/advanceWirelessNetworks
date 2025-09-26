@@ -194,11 +194,12 @@ main (int argc, char *argv[])
   const double activeSecs = 9.0;  // apps active in [1,10]s
   const double goodput_bps = (totalRxBytes * 8.0) / activeSecs;
 
-  std::cout << "[Scenario1] PHYMode=" << mode
-            << "  offered=100Mbps"
-            << "  totalRxBytes=" << totalRxBytes
-            << "  throughput=" << goodput_bps << " bps (" << goodput_bps/1e6 << " Mbps)"
-            << std::endl;
+  std::cout << "" << mode
+            << "," << offered.str()
+            << "," << seed
+            << "," << totalRxBytes
+            << "," << throughput << ","
+            << throughput/1e6 << "\n";
 
   Simulator::Destroy();
   return 0;
