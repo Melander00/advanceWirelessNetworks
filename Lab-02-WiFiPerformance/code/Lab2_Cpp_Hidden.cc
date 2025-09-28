@@ -115,12 +115,12 @@ main (int argc, char *argv[])
   pos->Add(Vector(0.0, 0.0, 0.0)); // index 0 in "apNode"
 
   // Left triangle
-  pos->Add(Vector(-10.0, 0.0, 0.0));  // Left sender   (staSenders[0])
-  pos->Add(Vector(-5.0,   h,   0.0)); // Left receiver (staReceivers[0])
+  pos->Add(Vector(-s, 0.0, 0.0));  // Left sender   (staSenders[0])
+  pos->Add(Vector(-s/2,   h,   0.0)); // Left receiver (staReceivers[0])
 
   // Right triangle
-  pos->Add(Vector( 10.0, 0.0, 0.0));  // Right sender   (staSenders[1])
-  pos->Add(Vector(  5.0,  h,  0.0));  // Right receiver (staReceivers[1])
+  pos->Add(Vector( s, 0.0, 0.0));  // Right sender   (staSenders[1])
+  pos->Add(Vector(  s/2,  h,  0.0));  // Right receiver (staReceivers[1])
 
   mobility.SetPositionAllocator(pos);
   mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
@@ -184,7 +184,7 @@ main (int argc, char *argv[])
   Ptr<FlowMonitor> monitor = fmHelper.InstallAll();
 
   // NetAnim (deliverable name)
-  AnimationInterface anim("scenario2_anim.xml");
+  AnimationInterface anim("/work/Lab-02-WiFiPerformance/submission/hidden.xml");
   // Label nodes to make the animation self‑explanatory
   anim.UpdateNodeDescription(apNode.Get(0),           "AP");
   anim.UpdateNodeDescription(staSenders.Get(0),       "Sender_L");
@@ -194,10 +194,10 @@ main (int argc, char *argv[])
 
   // Keep positions consistent in the animation
   anim.SetConstantPosition(apNode.Get(0),           0.0,  0.0);
-  anim.SetConstantPosition(staSenders.Get(0),    -10.0,  0.0);
-  anim.SetConstantPosition(staReceivers.Get(0),   -5.0,  h);
-  anim.SetConstantPosition(staSenders.Get(1),     10.0,  0.0);
-  anim.SetConstantPosition(staReceivers.Get(1),    5.0,  h);
+  anim.SetConstantPosition(staSenders.Get(0),    -s,  0.0);
+  anim.SetConstantPosition(staReceivers.Get(0),   -s/2,  h);
+  anim.SetConstantPosition(staSenders.Get(1),     s,  0.0);
+  anim.SetConstantPosition(staReceivers.Get(1),    s/2,  h);
 
   // ------------------------------- Run the simulation ------------------------------
   Simulator::Stop(Seconds(10.0));
@@ -224,13 +224,20 @@ main (int argc, char *argv[])
   const double thrB = (rxPort10 * 8.0) / activeSecs; // bps
   const double thrSum = thrA + thrB;
 
-  std::cout << "[Scenario1-Part2] PHYMode=" << mode
-            << "  offered(each)=100Mbps"
-            << "  rxBytes(port9)="  << rxPort9
-            << "  rxBytes(port10)=" << rxPort10 << std::endl;
-  std::cout << "    throughput flowA(port9):  " << thrA    << " bps (" << thrA/1e6    << " Mbps)\n";
-  std::cout << "    throughput flowB(port10): " << thrB    << " bps (" << thrB/1e6    << " Mbps)\n";
-  std::cout << "    aggregate throughput:      " << thrSum  << " bps (" << thrSum/1e6  << " Mbps)\n";
+  std::cout << mode
+            << "," << rts
+            << "," << seed
+            << "," << thrA
+            << "," << thrB
+            << "," << thrSum << "\n";
+
+//   std::cout << "[Scenario1-Part2] PHYMode=" << mode
+//             << "  offered(each)=100Mbps"
+//             << "  rxBytes(port9)="  << rxPort9
+//             << "  rxBytes(port10)=" << rxPort10 << std::endl;
+//   std::cout << "    throughput flowA(port9):  " << thrA    << " bps (" << thrA/1e6    << " Mbps)\n";
+//   std::cout << "    throughput flowB(port10): " << thrB    << " bps (" << thrB/1e6    << " Mbps)\n";
+//   std::cout << "    aggregate throughput:      " << thrSum  << " bps (" << thrSum/1e6  << " Mbps)\n";
 
   Simulator::Destroy();
   return 0;

@@ -16,7 +16,6 @@ cd "$NS3_DIR"
 
 
 # Sweep
-
 # # Rate loop
 # for rate in 1 5.5 11; do
 #     # Payload loop
@@ -30,8 +29,12 @@ cd "$NS3_DIR"
 # done
 
 
+
+# Hidden
 for rate in 1 5.5 11; do
-    for seed in 1 2; do
-        ns3 run --quiet exec -- --rate=$rate --seed=$seed --rts=2200 --distance=55
+    for rts in 0 2200; do
+        for seed in 1 2; do
+            ns3 run --quiet exec -- --rate=$rate --seed=$seed --rts=$rts --distance=5
+        done
     done
 done
