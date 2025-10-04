@@ -127,41 +127,6 @@ Repeat the C++ steps above using `code/Lab2_Py_Scenario1.py` and `code/Lab2_Py_S
 ![Two-Ray Ground Reflection Model](/common/images/hiddenTerminalScenario.png)  
 *Refer to jayasuriya2004-hidden.pdf*
 
-### Task (C++): Scenario 2 – Payload Sweep
-
-1. **Copy** `Lab2_Cpp_Scenario1.cc` as base into `scratch/` and rename to `Lab2_Cpp_PayloadSweep.cc`.
-2. **Modify** for distances = *dᵢ*/2 from Lab 1.
-3. **Sweep** PHY rates {1, 5.5, 11 Mbps} × payloads {400, 700, 1000 B} → 9 experiments.
-4. **Measure** throughput for each combination.
-5. **Plot** throughput vs. payload for each PHY rate.
-
-**Likely issues:**
-
-* Invalid DataMode string: check [common/links.md](../common/links.md) for exact mode names.
-
----
-
-### Task (C++): Scenario 2 – Hidden Terminal
-
-1. **Copy** `code/Lab2_Cpp_Scenario2.cc` (or `Lab2_Cpp_Hidden.cc`) into `scratch/`.
-2. **Arrange** STA0 at (0,0), AP at (dᵢ,0), STA1 at (2dᵢ,0).
-3. **Install** two OnOff apps (same payload=1000 B, rate=1 Mbps) on ports 9 & 10.
-4. **Run** with RTS/CTS disabled (`RtsCtsThreshold=2200`), measure throughput & PDR.
-5. **Enable** RTS/CTS (`RtsCtsThreshold=0`), rerun, re-measure.
-6. **Compare** results and analyze.
-
-**Likely issues:**
-
-* RTS/CTS no effect: see [3.2 & 3.3 in common/troubleshooting.md](../common/troubleshooting.md#32-rtscts-has-no-effect).
-
----
-
-### Task (Python): Packet Sweep & Hidden Terminal
-
-Repeat Part 2 in Python using analogous scripts (`Lab2_Py_PayloadSweep.py` and a hidden-terminal script). Ensure binding imports and run with identical parameters.
-
----
-
 ## Deliverables
 
 See [`deliverables.md`](deliverables.md).
