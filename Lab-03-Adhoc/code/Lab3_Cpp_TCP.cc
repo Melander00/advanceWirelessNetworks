@@ -72,6 +72,7 @@ int main(int argc, char* argv[])
   bool enablePcap     = false;   // PCAP off by default
   bool enableAnim     = false;   // NetAnim off by default
   std::string csvPath = "";      // empty → print results to stdout
+    bool tcp = 0;
 
   CommandLine cmd;
   cmd.AddValue("pktSize",    "TCP segment size (bytes).", pktSize);
@@ -81,6 +82,7 @@ int main(int argc, char* argv[])
   cmd.AddValue("enablePcap", "Enable per-node PCAP traces.", enablePcap);
   cmd.AddValue("enableAnim", "Write NetAnim XML.",           enableAnim);
   cmd.AddValue("csv",        "If non-empty, write CSV to this path.", csvPath);
+    cmd.AddValue("tcp", "Enable tcp", tcp);
   cmd.Parse(argc, argv);
 
   // Sanity
@@ -159,21 +161,23 @@ int main(int argc, char* argv[])
   // -------- TCP configuration --------
   // Set TCP segment size = pktSize. This controls how TCP cuts application data
   // into segments (MSS ~ pktSize - TCP options/headers at lower layers).
+  if(tcp == 1) {
   Config::SetDefault("ns3::TcpSocket::SegmentSize", UintegerValue(pktSize));
+  }
 
   // -------- Applications: TCP sink on node 2, TCP OnOff on node 0 --------
   const uint16_t port = 5001;
 
   // Sink (server) to count received bytes at the application layer
   Address sinkLocalAddr(InetSocketAddress(Ipv4Address::GetAny(), port));
-  PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", sinkLocalAddr);
+  PacketSinkHelper sinkHelper(tcp == 1 ? "ns3::TcpSocketFactory" : "ns3::UdpSocketFactory", sinkLocalAddr);
   ApplicationContainer sinkApp = sinkHelper.Install(nodes.Get(2));
   sinkApp.Start(Seconds(0.0));
   sinkApp.Stop(Seconds(simStop));
 
   // Source (client) — OnOff using TCP sockets, with constant data rate
   Address sinkRemoteAddr(InetSocketAddress(ifaces.GetAddress(2), port));
-  OnOffHelper onoff("ns3::TcpSocketFactory", sinkRemoteAddr);
+  OnOffHelper onoff(tcp == 1 ? "ns3::TcpSocketFactory" : "ns3::UdpSocketFactory", sinkRemoteAddr);
   // Drive hard to reveal TCP’s behavior; appRate should exceed bottleneck capacity.
   onoff.SetConstantRate(DataRate(appRate), pktSize);
   ApplicationContainer srcApp = onoff.Install(nodes.Get(0));
@@ -233,6 +237,7 @@ int main(int argc, char* argv[])
   // -------- Human-readable summary --------
   Banner("TCP 3-node chain results");
   std::cout << "Config:\n"
+            << (tcp == 1 ? "TCP" : "UDP\n")
             << "  pktSize   = " << pktSize << " B (TCP segment size)\n"
             << "  seed(run) = " << seedRun << "\n"
             << "  distance  = " << distance << " m (0, " << distance << ", " << 2*distance << ")\n"
