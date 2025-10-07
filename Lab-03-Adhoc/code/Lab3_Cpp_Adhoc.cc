@@ -97,9 +97,9 @@ int main(int argc, char* argv[])
   // -------- PHY + channel: 802.11b @ 1 Mb/s, Two-Ray Ground --------
   // Channel: Two-Ray so received power falls off with d^4 after cross-over,
   // giving us a reasonable adjacency-only range at ~200 m spacing.
-  YansWifiChannelHelper channel;
+  YansWifiChannelHelper channel = YansWifiChannelHelper::Default();
   channel.SetPropagationDelay("ns3::ConstantSpeedPropagationDelayModel");
-  channel.AddPropagationLoss("ns3::TwoRayGroundPropagationLossModel");
+//   channel.AddPropagationLoss("ns3::TwoRayGroundPropagationLossModel");
 
   YansWifiPhyHelper phy;
   phy.SetChannel(channel.Create());

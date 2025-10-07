@@ -104,9 +104,9 @@ int main(int argc, char* argv[])
   nodes.Create(3);
 
   // -------- PHY/Channel: 802.11b @ 1 Mb/s, Two-Ray Ground --------
-  YansWifiChannelHelper channel;
+  YansWifiChannelHelper channel = YansWifiChannelHelper::Default();
   channel.SetPropagationDelay("ns3::ConstantSpeedPropagationDelayModel");
-  channel.AddPropagationLoss("ns3::TwoRayGroundPropagationLossModel");
+//   channel.AddPropagationLoss("ns3::TwoRayGroundPropagationLossModel");
 
   YansWifiPhyHelper phy;
   phy.SetChannel(channel.Create());

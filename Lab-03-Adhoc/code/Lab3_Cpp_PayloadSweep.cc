@@ -114,9 +114,9 @@ static CaseResult RunOneCase(uint32_t nodesCount,
   nodes.Create(nodesCount);
 
   // ---------------- wifi channel/phy ----------------
-  YansWifiChannelHelper channel;
+  YansWifiChannelHelper channel = YansWifiChannelHelper::Default();
   channel.SetPropagationDelay("ns3::ConstantSpeedPropagationDelayModel");
-  channel.AddPropagationLoss("ns3::TwoRayGroundPropagationLossModel");
+//   channel.AddPropagationLoss("ns3::TwoRayGroundPropagationLossModel");
 
   YansWifiPhyHelper phy;
   phy.SetChannel(channel.Create());
