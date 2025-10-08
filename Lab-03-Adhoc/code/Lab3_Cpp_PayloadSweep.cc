@@ -100,9 +100,9 @@ static CaseResult RunOneCase(uint32_t nodesCount,
                              bool enableAnim)
 {
   // FIXED lab timing: send 1..10 s, stop at 11 s.
-  const double appStart = 1.0;
-  const double appStop  = 10.0;
-  const double simStop  = 11.0;
+  const double appStart = 16.0;
+  const double appStop  = 15.0;
+  const double simStop  = 21.0;
   const double txWindow = appStop - appStart; // = 9.0
 
   // Deterministic seed + variable run (matches Lab convention).

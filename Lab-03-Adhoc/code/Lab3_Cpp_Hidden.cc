@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
   cmd.Parse(argc, argv);
 
   // Timing
-  const double appStart = 1.0, appStop = 10.0, simStop = 11.0;
+  const double appStart = 6.0, appStop = 15.0, simStop = 21.0;
   const double txWindow = appStop - appStart; // 9 s
 
   // Seed/run

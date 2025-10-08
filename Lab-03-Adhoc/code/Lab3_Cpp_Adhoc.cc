@@ -85,9 +85,9 @@ int main(int argc, char* argv[])
   RngSeedManager::SetRun(seedRun);
 
   // Simulation time: allow apps to run 1..10 s; stop at a little after to flush.
-  const double appStart = 1.0;
-  const double appStop  = 10.0;
-  const double simStop  = 11.0;  // a bit of tail for stats/teardown
+  const double appStart = 6.0;
+  const double appStop  = 15.0;
+  const double simStop  = 21.0;  // a bit of tail for stats/teardown
   const double txWindow = appStop - appStart; // should be 9.0 s
 
   // -------- Create nodes --------
