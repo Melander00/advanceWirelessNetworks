@@ -7,7 +7,9 @@ import pandas as pd
 parser = argparse.ArgumentParser(description='Parse trace file and calculate total bytes and throughput.')
 parser.add_argument('filename', type=str, help='Name of the trace .txt file inside submission folder.')
 parser.add_argument('--csv', type=bool, help="Sets print format as csv file instead.", default=False)
-parser.add_argument('--total', type=bool, help="Whether each row should be combined to a total.", default=False, )
+parser.add_argument('--total', type=bool, help="Whether each row should be combined to a total.", default=False)
+parser.add_argument('--bytesField', type=str, help="The field that should get the bytes from TxBytes or RxBytes.", default="TxBytes")
+
 args = parser.parse_args()
 
 # Paths
@@ -66,7 +68,7 @@ df = df.apply(pd.to_numeric, errors='coerce')
 
 # Calculate total bytes delivered (TxBytes + RxBytes)
 df['TotalBytes'] = df['TxBytes'] + df['RxBytes']
-df['TotalBytesDelivered'] = df['TxBytes']
+df['TotalBytesDelivered'] = df[args.bytesField]
 
 # Calculate duration for each row
 df['Duration'] = df['end'] - df['start']
@@ -77,7 +79,7 @@ df['Throughput_bps'] = df['TotalBytes'] * 8 / df['Duration']
 # Print results
 
 if args.total == True:
-    total_tx_bytes = df['TxBytes'].sum()
+    total_tx_bytes = df[args.bytesField].sum()
     total_duration = df['end'].iloc[-1] - df['start'].iloc[0]
     overall_throughput_bps = total_tx_bytes * 8 / total_duration
     print(f"Total Tx = {total_tx_bytes}, Total Duration = {total_duration}, Total Throughput = {overall_throughput_bps}")
