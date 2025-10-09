@@ -210,41 +210,48 @@ int main(int argc, char* argv[])
     Ptr<PacketSink> sink = DynamicCast<PacketSink>(sinkApp.Get(0));
     rxBytes = sink ? sink->GetTotalRx() : 0;
   }
-  const double throughputMbps = (rxBytes * 8.0 / txWindow) / 1e6;
+  const double throughput =  (rxBytes * 8.0 / txWindow);
+  const double throughputMbps = throughput / 1e6;
 
   // -------- FlowMonitor: print per-flow stats (ns-3.40 API) --------
   monitor->CheckForLostPackets();
   auto stats = monitor->GetFlowStats();
   Ptr<Ipv4FlowClassifier> classifier = DynamicCast<Ipv4FlowClassifier>(fmHelper.GetClassifier());
 
-  Banner("FlowMonitor (per-flow) — informational");
-  for (const auto& kv : stats)
-  {
-    FlowId id = kv.first;
-    const FlowMonitor::FlowStats& s = kv.second;
-    Ipv4FlowClassifier::FiveTuple t = classifier->FindFlow(id);
+  // Banner("FlowMonitor (per-flow) — informational");
+  // for (const auto& kv : stats)
+  // {
+  //   FlowId id = kv.first;
+  //   const FlowMonitor::FlowStats& s = kv.second;
+  //   Ipv4FlowClassifier::FiveTuple t = classifier->FindFlow(id);
 
-    std::cout << "Flow " << id
-              << "  " << t.sourceAddress << ":" << t.sourcePort
-              << " -> " << t.destinationAddress << ":" << t.destinationPort
-              << " | rxBytes=" << s.rxBytes
-              << " | rxPackets=" << s.rxPackets
-              << " | lost=" << s.lostPackets
-              << " | delaySum=" << s.delaySum.GetSeconds() << " s"
-              << "\n";
-  }
+    std::cout << (tcp == 1 ? "TCP" : "UDP")
+              << "," << pktSize
+              << "," << seedRun
+              << "," << throughput << "\n"; 
+  // }
 
-  // -------- Human-readable summary --------
-  Banner("TCP 3-node chain results");
-  std::cout << "Config:\n"
-            << (tcp == 1 ? "TCP" : "UDP\n")
-            << "  pktSize   = " << pktSize << " B (TCP segment size)\n"
-            << "  seed(run) = " << seedRun << "\n"
-            << "  distance  = " << distance << " m (0, " << distance << ", " << 2*distance << ")\n"
-            << "  appRate   = " << appRate << "\n\n";
-  std::cout << "Throughput (sink-based, authoritative): "
-            << throughputMbps << " Mb/s"
-            << "  (" << rxBytes << " bytes over " << txWindow << " s)\n";
+  //   std::cout << "Flow " << id
+  //             << "  " << t.sourceAddress << ":" << t.sourcePort
+  //             << " -> " << t.destinationAddress << ":" << t.destinationPort
+  //             << " | rxBytes=" << s.rxBytes
+  //             << " | rxPackets=" << s.rxPackets
+  //             << " | lost=" << s.lostPackets
+  //             << " | delaySum=" << s.delaySum.GetSeconds() << " s"
+  //             << "\n";
+  // }
+
+  // // -------- Human-readable summary --------
+  // Banner("TCP 3-node chain results");
+  // std::cout << "Config:\n"
+  //           << (tcp == 1 ? "TCP" : "UDP\n")
+  //           << "  pktSize   = " << pktSize << " B (TCP segment size)\n"
+  //           << "  seed(run) = " << seedRun << "\n"
+  //           << "  distance  = " << distance << " m (0, " << distance << ", " << 2*distance << ")\n"
+  //           << "  appRate   = " << appRate << "\n\n";
+  // std::cout << "Throughput (sink-based, authoritative): "
+  //           << throughputMbps << " Mb/s"
+  //           << "  (" << rxBytes << " bytes over " << txWindow << " s)\n";
 
   // -------- Optional CSV output (one line) --------
   if (!csvPath.empty())

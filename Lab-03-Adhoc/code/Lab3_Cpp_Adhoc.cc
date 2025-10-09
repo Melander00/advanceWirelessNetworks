@@ -220,7 +220,7 @@ auto stats = monitor->GetFlowStats();
 Ptr<Ipv4FlowClassifier> classifier =
     DynamicCast<Ipv4FlowClassifier>(fmHelper.GetClassifier());
 
-Banner("FlowMonitor (per-flow) — informational");
+// Banner("FlowMonitor (per-flow) — informational");
 for (const auto& kv : stats)
 {
   FlowId id = kv.first;
@@ -229,14 +229,19 @@ for (const auto& kv : stats)
   // ns-3.40 API: FindFlow(flowId) -> FiveTuple
   Ipv4FlowClassifier::FiveTuple t = classifier->FindFlow(id);
 
-  std::cout << "Flow " << id
-            << "  " << t.sourceAddress << ":" << t.sourcePort
-            << " -> " << t.destinationAddress << ":" << t.destinationPort
-            << " | rxBytes=" << s.rxBytes
-            << " | rxPackets=" << s.rxPackets
-            << " | delaySum=" << s.delaySum.GetSeconds() << " s"
-            << " | lost=" << s.lostPackets
-            << "\n";
+  std::cout << numNodes
+            << "," << pktSize
+            << "," << seedRun
+            << "," << throughput_bps << "\n";
+
+  // std::cout << "Flow " << id
+  //           << "  " << t.sourceAddress << ":" << t.sourcePort
+  //           << " -> " << t.destinationAddress << ":" << t.destinationPort
+  //           << " | rxBytes=" << s.rxBytes
+  //           << " | rxPackets=" << s.rxPackets
+  //           << " | delaySum=" << s.delaySum.GetSeconds() << " s"
+  //           << " | lost=" << s.lostPackets
+  //           << "\n";
 }
 
 
