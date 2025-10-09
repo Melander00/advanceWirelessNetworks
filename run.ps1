@@ -60,7 +60,7 @@ Write-Host "with arguments:" -NoNewline
 Write-Host " $execArgs" -ForegroundColor Yellow
 Write-Host ""
 
-$cmd = 'cd /work && source scripts/setup_env.sh && cd "$NS3_DIR" && ns3 build && ns3 run exec -- ' + $execArgs
+$cmd = 'cd /work && source scripts/setup_env.sh && cd "$NS3_DIR" && ns3 build && ns3 run --quiet exec -- ' + $execArgs
 
 Write-Host "--> Running command inside Docker container '$containerName':"
 Write-Host "`t $cmd" -ForegroundColor Green
