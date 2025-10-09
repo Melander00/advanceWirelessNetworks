@@ -1,0 +1,4 @@
+data_rate,distance_m,antenna,seed,rxBytes,throughput_bps
+5Mbps,100,isotropic,1,11249664,4.99985e+06
+10Mbps,100,isotropic,1,22499328,9.9997e+06
+20Mbps,100,isotropic,1,44999680,1.99999e+07

@@ -38,6 +38,11 @@
 #include "ns3/netanim-module.h"          // optional
 #include "ns3/flow-monitor-module.h"     // optional (useful while debugging)
 
+#include <fstream>
+#include <string>
+#include <iostream>
+#include <iomanip>
+
 using namespace ns3;
 
 // ---------- Small helpers ----------
